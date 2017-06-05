@@ -19,7 +19,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ArvoreData arv = new ArvoreData();
+        Arvore arv = new Arvore();
         try {
             Venda v;
             Scanner s = new Scanner(new File("vendas.txt"));
