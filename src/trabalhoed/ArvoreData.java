@@ -24,39 +24,122 @@ public class ArvoreData {
     }
     
     public void incluir(Venda v){
-        tamanho++;
-        if(raiz == null) raiz = new NoData(v);
+        
+        if(raiz == null){
+            raiz = new NoData(v);
+            tamanho++;
+        }
         else this.incluir(raiz,v);
     }
     
     private void incluir(NoData atual, Venda v){
         if(atual == null) return;
         
-        boolean b = atual.cont.getChave(false) > v.getChave(false);
-        NoData novo;
-        
-        if(b){
-            if(atual.esq == null){
-                novo = new NoData(v);
-                atual.esq = novo;
-                novo.pai = atual;
-            }
-            else incluir(atual.esq,v);
+        if(atual.cont.getChave(false) == v.getChave(false)){
+            atual.cont.setTotal(v.getTotal());
         }else{
-            
-            if(atual.dir == null){
-                novo = new NoData(v);
-                atual.dir = novo;
-                novo.pai = atual;
-            }
-            else incluir(atual.dir,v);
-        }
-        atual.altura = Math.max(NoData.altura(atual.dir),NoData.altura(atual.esq))+1;
-        int fb = atual.fatorBalanceamento();
         
-        if(Math.abs(fb) > 1){
-            //balanceia
+            boolean b = atual.cont.getChave(false) > v.getChave(false);
+            NoData novo;
+
+            if(b){
+                if(atual.esq == null){
+                    novo = new NoData(v);
+                    atual.esq = novo;
+                    novo.pai = atual;
+                    tamanho++;
+                }
+                else incluir(atual.esq,v);
+            }else{
+
+                if(atual.dir == null){
+                    novo = new NoData(v);
+                    atual.dir = novo;
+                    novo.pai = atual;
+                    tamanho++;
+                }
+                else incluir(atual.dir,v);
+            }
+            atual.altura = Math.max(NoData.altura(atual.dir),NoData.altura(atual.esq))+1;
+            int fb = atual.fatorBalanceamento();
+            NoData pai = null;
+            NoData aux = atual;
+
+            if(atual != raiz) pai = atual.pai;
+            boolean filhoDireita = pai != null && atual.equals(pai.dir);
+
+            if(fb > 1){
+                if(atual.esq.fatorBalanceamento() > -1){
+                    aux = rotacaoDireita(atual);
+                }
+                else{
+                    aux = rotacaoDuplaDireita(atual);
+                }
+            }else if(fb < -1){
+
+                if(atual.dir.fatorBalanceamento() < 1){
+                    aux = rotacaoEsquerda(atual);
+                }
+                else{
+                    aux = rotacaoDuplaEsquerda(atual);
+                }
+            }
+            if(pai != null){
+                aux.pai = pai;
+                if(filhoDireita) pai.dir = aux;
+                else pai.esq = aux;
+            }else{
+                raiz = aux;
+            }
         }
+    }
+    
+    private NoData rotacaoDuplaDireita(NoData no){
+        NoData aux = rotacaoEsquerda(no.esq);
+        
+        no.esq = aux;
+        aux.pai = no;
+        
+        return rotacaoDireita(no);
+    }
+    
+    private NoData rotacaoDuplaEsquerda(NoData no){
+        NoData aux = rotacaoDireita(no.dir);
+        
+        no.dir = aux;
+        aux.pai = no;
+        
+        return rotacaoEsquerda(no);
+    }
+    
+    private NoData rotacaoDireita(NoData desbalanceado){
+        NoData n2 = desbalanceado.esq;
+        NoData t1 = n2.esq,t2 = n2.dir;
+        
+        desbalanceado.esq = t2;
+        if(t2 != null) t2.pai = desbalanceado;
+        
+        n2.dir = desbalanceado;
+        desbalanceado.pai = n2;
+        
+        desbalanceado.altura = Math.max(NoData.altura(desbalanceado.dir), NoData.altura(desbalanceado.esq)) + 1;
+        n2.altura = Math.max(NoData.altura(n2.esq), NoData.altura(n2.dir)) + 1;
+        return n2;
+    }
+    
+    private NoData rotacaoEsquerda(NoData desbalanceado){
+        NoData n2 = desbalanceado.dir;
+        NoData t1 = n2.dir,t2 = n2.esq;
+        
+        desbalanceado.dir = t2;
+        if(t2 != null) t2.pai = desbalanceado;
+        
+        n2.esq = desbalanceado;
+        desbalanceado.pai = n2;
+        
+        desbalanceado.altura = Math.max(NoData.altura(desbalanceado.dir), NoData.altura(desbalanceado.esq)) + 1;
+        n2.altura = Math.max(NoData.altura(n2.esq), NoData.altura(n2.dir)) + 1;
+        return n2;
     }
     
     public void imprime(){
@@ -66,7 +149,7 @@ public class ArvoreData {
     private void imprime(NoData atual){
         if(atual == null) return;
         
-        System.out.print("||" + atual + "||\n");
+        System.out.print("||" + atual + "\\\\" + atual.fatorBalanceamento() + "||\n");
         this.imprime(atual.esq);
         this.imprime(atual.dir);
     }

@@ -26,6 +26,10 @@ public class Venda {
         if(tipo) return this.getchave();
         return ma.getChave();
     }
+
+    public void setTotal(int total) {
+        this.total += total;
+    }
     
     private int getchave(){
         return filial;

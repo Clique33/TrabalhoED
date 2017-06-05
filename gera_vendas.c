@@ -22,7 +22,7 @@ int main(){
 	
 	for(i = 0; i < 1000; i++){
 		fprintf(f,"%d ",gera_int(40));
-		fprintf(f,"%s/%c%c ",gera_mes(),gera_int(2)-1+48,gera_int(10)-1+48);
+		fprintf(f,"%s/%c%c ",gera_mes(),gera_int(3)-1+48,gera_int(10)-1+48);
 		fprintf(f,"%d %d\n",gera_int(1000),gera_int(100));
 		//printf("%d ",MESES[0][i]);
 	}

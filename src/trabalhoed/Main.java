@@ -24,7 +24,7 @@ public class Main {
             Venda v;
             Scanner s = new Scanner(new File("vendas.txt"));
             
-            for (int i = 0; s.hasNext() && i < 10; i++) {
+            for (int i = 0; s.hasNext(); i++) {
                 v = new Venda(s.nextInt(), s.next(),s.next(),s.nextInt());
                 //System.out.println(v);
                 arv.incluir(v);
