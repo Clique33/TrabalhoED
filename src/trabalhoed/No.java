@@ -38,5 +38,34 @@ public class No {
         this.cont.incluir(v);
     }
     
+    public int busca(MesAno menor, MesAno maior){
+        return cont.busca(menor,maior);
+    }
     
+    public void printTree() {
+        if (dir != null)
+            dir.printTree(false, "");
+        printNodeValue();
+        if (esq != null)
+            esq.printTree(true, "");
+    }
+
+    private void printNodeValue() {
+        System.out.print("" + this.cont.getChave() + "/" + this.fatorBalanceamento());
+        System.out.print('\n');
+    }
+
+    private void printTree(boolean isRight, String indent) {
+        if (dir != null)
+            dir.printTree(false, indent + (isRight ? " |      " : "        "));
+        System.out.print(indent);
+        if (isRight)
+            System.out.print(" \\");
+        else
+            System.out.print(" /");
+        System.out.print("----- ");
+        printNodeValue();
+        if (esq != null)
+            esq.printTree(true, indent + (isRight ? "        " : " |      "));
+    }
 }

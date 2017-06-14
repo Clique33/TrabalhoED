@@ -13,6 +13,33 @@ public class Arvore {
     private No raiz = null;
     int tamanho = 0;   
     
+    public int busca(int filialMenor, int filialMaior, MesAno dataMenor, MesAno dataMaior){
+        
+        if(filialMenor > filialMaior){
+            int aux = filialMenor;
+            filialMenor = filialMaior;
+            filialMaior = aux;
+        }
+        if(dataMenor.distancia(dataMaior) > 0){
+            MesAno aux = dataMenor;
+            dataMenor = dataMaior;
+            dataMaior = aux;
+        }
+        
+        return busca(raiz, filialMenor, filialMaior, dataMenor, dataMaior);
+    }
+    
+    private int busca(No atual, int filialMenor, int filialMaior, MesAno dataMenor, MesAno dataMaior){
+        if(atual != null){
+            if(atual.getChave() < filialMenor) return busca(atual.dir, filialMenor, filialMaior, dataMenor, dataMaior);
+            if(atual.getChave() > filialMaior) return busca(atual.esq, filialMenor, filialMaior, dataMenor, dataMaior);
+            int total = atual.busca(dataMenor, dataMaior);
+            total += busca(atual.dir, filialMenor, filialMaior, dataMenor, dataMaior);
+            return total + busca(atual.esq, filialMenor, filialMaior, dataMenor, dataMaior);
+        }
+        return 0;
+    }
+    
     public void incluir(Venda v){
         
         if(raiz == null){
@@ -136,17 +163,20 @@ public class Arvore {
     }
     
     public void imprime(){
+        raiz.printTree();
         this.imprime(raiz);
     }
     
     private void imprime(No  atual){
         if(atual == null) return;
         
-        System.out.print("||");
+        System.out.print("||"+atual.cont.getChave());
         atual.cont.imprime();
-        System.out.print("\\\\" + atual.fatorBalanceamento() + "||\n");
+        System.out.println("\n\n\n");
+        //System.out.print("\\\\" + atual.fatorBalanceamento() + "||\n");
         this.imprime(atual.esq);
         this.imprime(atual.dir);
+        
     }
     
 }

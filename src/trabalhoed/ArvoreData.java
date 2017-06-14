@@ -18,6 +18,21 @@ public class ArvoreData {
         return raiz.getChave();
     }
     
+    public int busca(MesAno menor, MesAno maior){
+        return busca(raiz, menor, maior);
+    }
+    
+    private int busca(NoData atual, MesAno menor, MesAno maior){
+        if(atual != null){
+            if(atual.cont.getChave(false) < menor.getChave()) return busca(atual.dir, menor, maior);
+            if(atual.cont.getChave(false) > maior.getChave()) return busca(atual.esq, menor, maior);
+            int total = atual.cont.getTotal();
+            total += busca(atual.dir, menor, maior);
+            return total + busca(atual.esq, menor, maior);
+        }
+        return 0;
+    }
+    
     public void incluir(Venda v){
         
         if(raiz == null){
@@ -30,9 +45,9 @@ public class ArvoreData {
     private void incluir(NoData atual, Venda v){
         if(atual == null) return;
         
-        if(atual.cont.getChave(false) == v.getChave(false)){
+        /*if(atual.cont.getChave(false) == v.getChave(false)){
             atual.cont.setTotal(v.getTotal());
-        }else{
+        }else*/{
         
             boolean b = atual.cont.getChave(false) > v.getChave(false);
             NoData novo;
@@ -142,11 +157,12 @@ public class ArvoreData {
     }
     
     private void imprime(NoData atual){
-        if(atual == null) return;
+        /*if(atual == null) return;
         
         System.out.print("||" + atual + "\\\\" + atual.fatorBalanceamento() + "||\n");
         this.imprime(atual.esq);
-        this.imprime(atual.dir);
+        this.imprime(atual.dir);*/
+        raiz.printTree();
     }
     
     @Override
@@ -161,5 +177,5 @@ public class ArvoreData {
         this.toString(atual.dir,res);
         return res;
     }
-    
+   
 }

@@ -18,9 +18,9 @@ int main(){
 	int i,j;
 	char *s;
 	srand((unsigned)time(NULL));
-	FILE *f = fopen("C:\\Users\\Frog33\\Documents\\Mestrado\\Estrutura de Dados e Algoritmos\\TrabalhoED\\vendas.txt","w");
+	FILE *f = fopen("vendas.txt","w");
 	
-	for(i = 0; i < 1000; i++){
+	for(i = 0; i < 10; i++){
 		fprintf(f,"%d ",gera_int(40));
 		fprintf(f,"%s/%c%c ",gera_mes(),gera_int(3)-1+48,gera_int(10)-1+48);
 		fprintf(f,"%d %d\n",gera_int(1000),gera_int(100));

@@ -21,9 +21,11 @@ public class Venda {
         this.codVen = codVen;
         this.total = total;
     }
-    
-    public int getChave(boolean tipo){
-        if(tipo) return this.getchave();
+    public String getData(){
+        return ma.toString();
+    }
+    public int getChave(boolean ehFilial){
+        if(ehFilial) return this.getchave();
         return ma.getChave();
     }
 

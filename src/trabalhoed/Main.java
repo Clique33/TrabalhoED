@@ -35,7 +35,8 @@ public class Main {
         }        
         //System.out.println(arv);
         arv.imprime();
-        System.out.println(arv.tamanho);
+        //System.out.println(arv.tamanho);
+        System.out.println("total: " + arv.busca(31, 31, new MesAno("Ago/18"), new MesAno("Jul/27")));
         
     }
     

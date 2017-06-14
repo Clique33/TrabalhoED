@@ -21,7 +21,7 @@ public class NoData {
     }
     
     public int getChave(){
-        return cont.getChave(false);
+        return cont.getChave(true);
     }
     
     @Override
@@ -46,4 +46,30 @@ public class NoData {
         return altura(this.esq) - altura(this.dir);
     }
     
+    public void printTree() {
+        if (dir != null)
+            dir.printTree(false, "");
+        printNodeValue();
+        if (esq != null)
+            esq.printTree(true, "");
+    }
+
+    private void printNodeValue() {
+        System.out.print("" + this.cont.getData() + "|"  + this.cont.getTotal() + "/" + this.fatorBalanceamento());
+        System.out.print('\n');
+    }
+
+    private void printTree(boolean isRight, String indent) {
+        if (dir != null)
+            dir.printTree(false, indent + (isRight ? " |      " : "        "));
+        System.out.print(indent);
+        if (isRight)
+            System.out.print(" \\");
+        else
+            System.out.print(" /");
+        System.out.print("----- ");
+        printNodeValue();
+        if (esq != null)
+            esq.printTree(true, indent + (isRight ? "        " : " |      "));
+    }
 }
