@@ -162,9 +162,23 @@ public class Arvore {
         return n2;
     }
     
-    public void imprime(){
-        raiz.printTree();
-        this.imprime(raiz);
+    /**
+     * @param imprimir é igual a 0 se for para imprimir a árvore e a sub árvore, 1 se for só a árvore e 2 se for só as sub árvores
+     */
+    public void imprime(byte imprimir){
+        switch (imprimir) {
+            case 0:
+                raiz.printTree();
+                this.imprime(raiz);
+                break;
+            case 1:
+                raiz.printTree();
+                break;
+            default:
+                this.imprime(raiz);
+                break;
+        }
+        
     }
     
     private void imprime(No  atual){

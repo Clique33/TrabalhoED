@@ -5,6 +5,9 @@
  */
 package trabalhoed;
 
+import java.util.InputMismatchException;
+
+
 /**
  *
  * @author Frog33
@@ -18,15 +21,20 @@ public class MesAno {
     private int ano;
 
     public MesAno(String mesAno) {
+        if(mesAno.length() < 6) throw new InputMismatchException();
         this.mes = MesAno.find(mesAno.substring(0, 3));
-        this.ano = Integer.parseInt(mesAno.substring(4));
+        try{
+            this.ano = Integer.parseInt(mesAno.substring(4));
+        }catch(NumberFormatException e){
+            throw new InputMismatchException();
+        }
     }
         
-    private static int find(String s){
+    private static int find(String s) throws InputMismatchException{
         for (int i = 0; i < MesAno.CONVERSOR.length; i++) {
-            if(MesAno.CONVERSOR[i].equals(s)) return i;
+            if((MesAno.CONVERSOR[i]).compareToIgnoreCase(s) == 0/*(MesAno.CONVERSOR[i]).equals(s)*/) return i;
         }
-        return -1;
+        throw new InputMismatchException();
     }
     
     public int getChave(){
